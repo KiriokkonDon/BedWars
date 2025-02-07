@@ -1,0 +1,13 @@
+name: Bed_wars
+version: '${project.version}'
+main: knopa.bed_wars.Bed_wars
+api-version: 1.20
+
+commands:
+  gameSetting:
+    aliases:
+      gs
+
+  siege:
+    aliases:
+      si
