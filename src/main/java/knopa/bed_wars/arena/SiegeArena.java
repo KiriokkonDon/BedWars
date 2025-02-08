@@ -4,8 +4,12 @@ import knopa.bed_wars.arena.game.SiegeGame;
 import knopa.bed_wars.arena.points.capturable.CapturablePoint;
 import knopa.bed_wars.arena.team.Team;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EnderCrystal;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -113,5 +117,13 @@ public class SiegeArena {
 
     public SiegeGame getGame() {
         return game;
+    }
+
+    public void addTrader(Location location){
+        Villager villager = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
+
+        villager.getPersistentDataContainer().set(NamespacedKey.fromString("siege_trader"), PersistentDataType.INTEGER, 1);
+        villager.setSilent(true);
+        villager.setAI(false);
     }
 }

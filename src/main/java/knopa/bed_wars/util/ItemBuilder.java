@@ -2,6 +2,7 @@ package knopa.bed_wars.util;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -20,7 +21,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder displayName(String value) {
-        itemMeta.setDisplayName(value);
+        itemMeta.setDisplayName(ChatUtil.format(value));
 
         return this;
     }
@@ -52,6 +53,12 @@ public class ItemBuilder {
 
         return this;
     }
+
+    public ItemBuilder addEnchantment(Enchantment enchantment, int level){
+        itemMeta.addEnchant(enchantment, level, true);
+        return this;
+    }
+
 
     public ItemStack build() {
         itemStack.setItemMeta(itemMeta);

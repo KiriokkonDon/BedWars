@@ -5,8 +5,10 @@ import knopa.bed_wars.arena.GameStatus;
 import knopa.bed_wars.arena.SiegeArena;
 import knopa.bed_wars.arena.points.PointStatus;
 import knopa.bed_wars.arena.points.capturable.CapturablePoint;
+import knopa.bed_wars.arena.sellermenu.SellerMenu;
 import knopa.bed_wars.arena.team.Team;
 import knopa.bed_wars.util.ChatUtil;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,11 +16,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
 public class ArenaEvents implements Listener {
+
+    @EventHandler
+    public void  onEntityInteract(PlayerInteractAtEntityEvent event){
+        SiegeArena arena = ArenaManager.instance.getArenaOf(event.getPlayer());
+
+        if (arena != null && arena.getGame() != null){
+            if (event.getRightClicked().getPersistentDataContainer().has(NamespacedKey.fromString("siege_trader"), PersistentDataType.INTEGER)){
+                SellerMenu.instance.showMenu(event.getPlayer());
+            }
+        }
+
+    }
+
     @EventHandler
     public void  onTeamChange(PlayerInteractEvent event){
         if (event.hasItem()){
@@ -94,6 +111,9 @@ public class ArenaEvents implements Listener {
                         }
                     }
 
+                }
+                else if (event.getEntity().getPersistentDataContainer().has(NamespacedKey.fromString("siege_trader"), PersistentDataType.INTEGER)){
+                    event.setCancelled(true);
                 }
             }
         }

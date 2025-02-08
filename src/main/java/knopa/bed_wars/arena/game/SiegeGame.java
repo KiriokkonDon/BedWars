@@ -4,6 +4,7 @@ import knopa.bed_wars.Bed_wars;
 import knopa.bed_wars.arena.ArenaManager;
 import knopa.bed_wars.arena.GameStatus;
 import knopa.bed_wars.arena.SiegeArena;
+import knopa.bed_wars.arena.player.SiegePlayer;
 import knopa.bed_wars.arena.points.PointStatus;
 import knopa.bed_wars.arena.points.capturable.CapturablePoint;
 import knopa.bed_wars.arena.team.Team;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 public class SiegeGame {
 
-    private  final List<Player> players = new ArrayList<>();
+    private  final List<SiegePlayer> players = new ArrayList<>();
 
     private final SiegeArena arena;
 
@@ -68,7 +69,7 @@ public class SiegeGame {
         }
 
         preparePlayer(player, false);
-        players.add(player);
+        players.add(new SiegePlayer(player));
         sendGameConfigMessage("joined", Map.of("%player%", player.getName()));
 
         if (players.size() >= arena.getMinPlayers() && status == GameStatus.WAITING_FOR_PLAYERS){
@@ -77,10 +78,21 @@ public class SiegeGame {
     }
 
     public void leavePlayer(Player player){
-        players.remove(player);
+        players.remove(getSiegePlayer(player));
         sendGameConfigMessage("left");
 
         preparePlayer(player, true);
+    }
+
+    @Nullable
+    public SiegePlayer getSiegePlayer(Player player){
+        for (SiegePlayer siegePlayer: players){
+            if (siegePlayer.getBukkitPlayer() == player){
+                return siegePlayer;
+            }
+        }
+
+        return null;
     }
 
     public void startCount(){
@@ -109,11 +121,11 @@ public class SiegeGame {
 
     private void start(){
         status = GameStatus.PLAYING;
-        for (Player player: players){
-            preparePlayer(player, false);
+        for (SiegePlayer player: players){
+            preparePlayer(player.getBukkitPlayer(), false);
 
-            player.teleport(getTeamOf(player).getSpawn());
-            ChatUtil.sendConfigTitle(player, "game_status", "");
+            player.getBukkitPlayer().teleport(getTeamOf(player.getBukkitPlayer()).getSpawn());
+            ChatUtil.sendConfigTitle(player.getBukkitPlayer(), "game_status", "");
         }
 
         for (Team team: arena.getTeams()){
@@ -221,16 +233,16 @@ public class SiegeGame {
     public  void  onGameEnd(Team winner){
         arena.reset();
 
-        for (Player player: players){
-            if (getTeamOf(player) == winner){
+        for (SiegePlayer player: players){
+            if (getTeamOf(player.getBukkitPlayer()) == winner){
                 ChatUtil.sendConfigTitle(
-                        player,
+                        player.getBukkitPlayer(),
                         "winner_message",
                         ""
                 );
             }
 
-            leavePlayer(player);
+            leavePlayer(player.getBukkitPlayer());
         }
     }
 
@@ -240,20 +252,20 @@ public class SiegeGame {
     }
 
     public void sendGameConfigMessage(String path){
-        for (Player player: players){
-            ChatUtil.sendConfigMessage(player, path);
+        for (SiegePlayer player: players){
+            ChatUtil.sendConfigMessage(player.getBukkitPlayer(), path);
         }
     }
 
     public void sendGameConfigMessage(String path, Map<String, String> args){
-        for (Player player: players){
-            ChatUtil.sendConfigMessage(player, path, args);
+        for (SiegePlayer player: players){
+            ChatUtil.sendConfigMessage(player.getBukkitPlayer(), path, args);
         }
     }
 
     public void sendGameConfigTitle(String path, String subPath, Map<String, String> args){
-        for (Player player: players){
-            ChatUtil.sendConfigTitle(player, path, subPath, args);
+        for (SiegePlayer player: players){
+            ChatUtil.sendConfigTitle(player.getBukkitPlayer(), path, subPath, args);
         }
     }
 
@@ -273,7 +285,7 @@ public class SiegeGame {
         return null;
     }
 
-    public List<Player> getPlayers() {
+    public List<SiegePlayer> getPlayers() {
         return players;
     }
 

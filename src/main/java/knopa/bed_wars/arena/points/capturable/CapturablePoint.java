@@ -13,20 +13,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class CapturablePoint {
 
     private final Location location;
     private double hp;
-    private final PointType type;
+    private final PointResource type;
     private EnderCrystal entity;
     private Hologram hologram;
     private PointStatus status = PointStatus.BLOCKED;
     private final Team team;
 
-    public CapturablePoint(Location location, double hp, PointType type, Team team) {
+    public CapturablePoint(Location location, double hp, PointResource type, Team team) {
         this.location = location;
         this.hp = hp;
         this.type = type;
@@ -98,7 +97,7 @@ public class CapturablePoint {
         return hp;
     }
 
-    public PointType getType() {
+    public PointResource getType() {
         return type;
     }
 

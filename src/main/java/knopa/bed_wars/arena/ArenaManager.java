@@ -2,7 +2,7 @@ package knopa.bed_wars.arena;
 
 import knopa.bed_wars.arena.points.BedPoint;
 import knopa.bed_wars.arena.points.capturable.CapturablePoint;
-import knopa.bed_wars.arena.points.capturable.PointType;
+import knopa.bed_wars.arena.points.capturable.PointResource;
 import knopa.bed_wars.arena.team.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,7 +27,7 @@ public class ArenaManager {
     public SiegeArena getArenaOf(Player player){
         for (SiegeArena arena: arenas){
             if (arena.getGame() != null){
-                if (arena.getGame().getPlayers().contains(player)){
+                if (arena.getGame().getPlayers().contains(arena.getGame().getSiegePlayer(player))){
                     return arena;
                 }
             }
@@ -53,7 +53,7 @@ public class ArenaManager {
         arena.addTeam(new Team(name, size, color, spawn, itemStack, new BedPoint(spawn)));
     }
 
-    public void addPoint(SiegeArena arena, String teamName, Location location, double hp, PointType type){
+    public void addPoint(SiegeArena arena, String teamName, Location location, double hp, PointResource type){
         arena.addPoint(teamName, new CapturablePoint(location, hp, type, arena.getTeamBy(teamName)));
     }
 }

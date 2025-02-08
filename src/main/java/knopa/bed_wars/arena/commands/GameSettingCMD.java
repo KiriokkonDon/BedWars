@@ -2,7 +2,7 @@ package knopa.bed_wars.arena.commands;
 
 import knopa.bed_wars.arena.ArenaManager;
 import knopa.bed_wars.arena.SiegeArena;
-import knopa.bed_wars.arena.points.capturable.PointType;
+import knopa.bed_wars.arena.points.capturable.PointResource;
 import knopa.bed_wars.util.ChatUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameSettingCMD implements TabExecutor {
@@ -60,12 +59,22 @@ public class GameSettingCMD implements TabExecutor {
                 args[2],
                 player.getLocation(),
                 Double.parseDouble(args[3]),
-                PointType.valueOf(args[4])
+                PointResource.valueOf(args[4])
         );
 
         ChatUtil.sendMessage(player, "DONE");
         return true;
     }
+        else if (args[0].equalsIgnoreCase("addTrader")){
+            SiegeArena arena = ArenaManager.instance.getArenaBy(args[1]);
+
+            if (arena != null){
+                arena.addTrader(player.getLocation());
+            }
+
+            ChatUtil.sendMessage(player, "DONE");
+            return true;
+        }
         else if (args[0].equalsIgnoreCase("launch")){
             SiegeArena arena = ArenaManager.instance.getArenaBy(args[1]);
 
@@ -81,7 +90,7 @@ public class GameSettingCMD implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1){
-            return List.of("create", "addTeam", "addPoint", "launch");
+            return List.of("create", "addTeam", "addTrader", "addPoint", "launch");
         }
 
         return null;

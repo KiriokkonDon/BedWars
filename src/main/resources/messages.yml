@@ -12,3 +12,4 @@ error:
   arena_is_full: "На арене нет места"
   only_for_player: "Только для игрока"
   not_enough_permission: "Недостаточно прав!"
+  not_enough_money: "У тебя недостаточно денюжек"

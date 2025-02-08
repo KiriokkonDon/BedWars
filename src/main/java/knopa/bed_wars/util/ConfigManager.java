@@ -1,12 +1,12 @@
 package knopa.bed_wars.util;
 
+import knopa.bed_wars.Bed_wars;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import yt.bebr0.boosty.Plugin;
 
 public class  ConfigManager {
 
@@ -17,10 +17,10 @@ public class  ConfigManager {
     public void init(String fileName) {
         fileName = fileName + ".yml";
 
-        File file = new File(Plugin.getInstance().getDataFolder().getAbsolutePath() + "/" + fileName);
+        File file = new File(Bed_wars.getInstance().getDataFolder().getAbsolutePath() + "/" + fileName);
 
         if (!file.exists()) {
-            Plugin.getInstance().saveResource(fileName, false);
+            Bed_wars.getInstance().saveResource(fileName, false);
         }
 
         configs.put(fileName, YamlConfiguration.loadConfiguration(file));
