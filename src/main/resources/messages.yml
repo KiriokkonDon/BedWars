@@ -8,8 +8,8 @@ winner_message: "Ты победил"
 
 team_svitch_message: "Ты теперь в команде %team%"
 error:
-  already_on_arena: "Ты уже на арене"
-  arena_is_full: "На арене нет места"
-  only_for_player: "Только для игрока"
-  not_enough_permission: "Недостаточно прав!"
-  not_enough_money: "У тебя недостаточно денюжек"
+ already_on_arena: "Ты уже на арене"
+ arena_is_full: "На арене нет места"
+ only_for_player: "Только для игрока"
+ not_enough_permission: "Недостаточно прав!"
+ not_enough_money: "У тебя недостаточно денюжек"
