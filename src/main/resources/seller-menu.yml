@@ -1,277 +1,232 @@
 price_lore:
-  'Цена: %price%'
-  'Ресурс: %resource%'
+  - 'Цена: %price%'
+  - 'Ресурс: %resource%'
 
 categories:
   size: 27
   title: 'Категории'
-
   items:
     blocks:
       slot: 10
       name: '&9Блоки'
       material: SANDSTONE
-
     food:
       slot: 11
       name: '&9Еда'
-      material: COOKED_POKCHOP
-
+      material: COOKED_PORKCHOP
     weapons:
       slot: 12
       name: '&9Оружие'
       material: DIAMOND_SWORD
-
     bows:
       slot: 13
       name: '&9Луки'
       material: BOW
-
     armor:
       slot: 14
       name: '&9Броня'
       material: IRON_CHESTPLATE
-
     abilities:
       slot: 15
       name: '&9Способности'
       material: ELYTRA
-
     others:
       slot: 16
       name: '&9Другое'
       material: TRIPWIRE_HOOK
 
-  blocks:
-    size: 27
-    title: '&7Блоки'
+blocks:
+  size: 27
+  title: '&7Блоки'
+  items:
+    11:
+      material: SANDSTONE
+      amount: 16
+      price: 1
+      vault: IRON
+    12:
+      material: COBBLESTONE
+      amount: 16
+      price: 3
+      vault: IRON
+    13:
+      material: END_STONE
+      amount: 7
+      price: 3
+      vault: GOLD
+    14:
+      material: DEEPSLATE
+      amount: 7
+      price: 6
+      vault: GOLD
+    15:
+      material: OBSIDIAN
+      amount: 1
+      price: 1
+      vault: DIAMOND
 
-    items:
-      11:
-        material: SANDSTONE
-        amount: 16
-        price: 1
-        vault: IRON
+food:
+  size: 27
+  title: '&7Еда'
+  items:
+    11:
+      material: APPLE
+      amount: 5
+      price: 2
+      vault: IRON
+    12:
+      material: COOKED_PORKCHOP
+      amount: 5
+      price: 4
+      vault: IRON
+    13:
+      material: CAKE
+      amount: 1
+      price: 3
+      vault: GOLD
+    14:
+      material: MUSHROOM_STEW
+      amount: 1
+      price: 5
+      vault: GOLD
+    15:
+      material: GOLDEN_CARROT
+      amount: 1
+      price: 1
+      vault: DIAMOND
 
-      12:
-        material: COBLESTONE
-        amount: 16
-        price: 3
-        vault: IRON
+weapons:
+  size: 27
+  title: '&7Оружие'
+  items:
+    11:
+      material: STONE_SWORD
+      amount: 1
+      price: 2
+      vault: IRON
+    12:
+      material: STONE_SWORD
+      amount: 1
+      price: 5
+      vault: IRON
+      enchantments:
+        DAMAGE_ALL: 1
+    13:
+      material: GOLDEN_SWORD
+      amount: 1
+      price: 3
+      vault: GOLD
+      enchantments:
+        DAMAGE_ALL: 2
+    14:
+      material: IRON_SWORD
+      amount: 1
+      price: 5
+      vault: GOLD
+      enchantments:
+        DAMAGE_ALL: 3
+    15:
+      material: DIAMOND_SWORD
+      amount: 1
+      price: 1
+      vault: DIAMOND
+      enchantments:
+        DAMAGE_ALL: 3
 
-      13:
-        material: END_STONE
-        amount: 7
-        price: 3
-        vault: GOLD
+bows:
+  size: 27
+  title: '&7Луки'
+  items:
+    11:
+      material: BOW
+      amount: 1
+      price: 1
+      vault: EMERALD
+      enchantments:
+        ARROW_DAMAGE: 1
+    12:
+      material: BOW
+      amount: 1
+      price: 2
+      vault: EMERALD
+      enchantments:
+        ARROW_DAMAGE: 2
+    13:
+      material: BOW
+      amount: 1
+      price: 3
+      vault: EMERALD
+      enchantments:
+        ARROW_DAMAGE: 3
+    14:
+      material: BOW
+      amount: 1
+      price: 4
+      vault: EMERALD
+      enchantments:
+        ARROW_DAMAGE: 4
+        ARROW_KNOCKBACK: 0
+    15:
+      material: BOW
+      amount: 1
+      price: 5
+      vault: EMERALD
+      enchantments:
+        ARROW_DAMAGE: 4
+        ARROW_KNOCKBACK: 1
 
-      14:
-          material: DEEPSLATE
-          amount: 7
-          price: 6
-          vault: GOLD
+armor:
+  size: 27
+  title: '&7Броня'
+  items:
+    11:
+      material: LEATHER_HELMET
+      amount: 1
+      price: 1
+      vault: IRON
+    12:
+      material: LEATHER_LEGGINGS
+      amount: 1
+      price: 1
+      vault: IRON
+    13:
+      material: LEATHER_BOOTS
+      amount: 1
+      price: 1
+      vault: IRON
+    14:
+      material: IRON_CHESTPLATE
+      amount: 1
+      price: 1
+      vault: GOLD
+      enchantments:
+        PROTECTION_ENVIRONMENTAL: 0
+    15:
+      material: IRON_CHESTPLATE
+      amount: 1
+      price: 3
+      vault: GOLD
+      enchantments:
+        PROTECTION_ENVIRONMENTAL: 2
 
-      15:
-        material: OBSIDIAN
-        amount: 1
-        price: 1
-        vault: DIAMOND
+abilities:
+  size: 27
+  title: '&7Способности'
+  items:
+    11: # Берсерк
+      price: 10
+      vault: EMERALD
+    12: # Артиллерист
+      price: 10
+      vault: EMERALD
+    13: # Солдат
+      price: 10
+      vault: EMERALD
+    14: # Танк
+      price: 10
+      vault: EMERALD
 
-
-
-  food:
-    size: 27
-    title: '&7Еда'
-
-    items:
-      11:
-        material: APPLE
-        amount: 5
-        price: 2
-        vault: IRON
-
-      12:
-        material: COOKED_PORKCHOP
-        amount: 5
-        price: 4
-        vault: IRON
-
-      13:
-        material: CAKE
-        amount: 1
-        price: 3
-        vault: GOLD
-
-      14:
-        material: MUSHROOM_STEW
-        amount: 1
-        price: 5
-        vault: GOLD
-
-      15:
-        material: GOLDER_CARROT
-        amount: 1
-        price: 1
-        vault: DIAMOND
-
-  weapons:
-    size: 27
-    title: '&7Оружие'
-
-    items:
-      11:
-        material: STONE_SWORD
-        amount: 1
-        price: 2
-        vault: IRON
-
-      12:
-        material: STONE_SWORD
-        amount: 1
-        price: 5
-        vault: IRON
-        enchantments:
-          DAMAGE_ALL: 1
-
-      13:
-        material: GOLDEN_SWORD
-        amount: 1
-        price: 3
-        vault: GOLD
-        enchantments:
-          DAMAGE_ALL: 2
-
-      14:
-        material: ITON_SWORD
-        amount: 1
-        price: 5
-        vault: GOLD
-        enchantments:
-          DAMAGE_ALL: 3
-
-      15:
-        material: DIAMOND_SWORD
-        amount: 1
-        price: 1
-        vault: DIAMOND
-        enchantments:
-          DAMAGE_ALL: 3
-
-
-  bows:
-    size: 27
-    title: '&7Луки'
-
-    items:
-      11:
-        material: BOW
-        amount: 1
-        price: 1
-        vault: EMERALD
-        enchantments:
-          ARROW_DAMAGE: 1
-
-      12:
-        material: BOW
-        amount: 1
-        price: 2
-        vault: EMERALD
-        enchantments:
-          ARROW_DAMAGE: 2
-
-      13:
-        material: BOW
-        amount: 1
-        price: 3
-        vault: EMERALD
-        enchantments:
-          ARROW_DAMAGE: 3
-
-      14:
-        material: BOW
-        amount: 1
-        price: 4
-        vault: EMERALD
-        enchantments:
-          ARROW_DAMAGE: 4
-          ARROW_KNOCKBACK: 0
-
-      15:
-        material: BOW
-        amount: 1
-        price: 5
-        vault: EMERALD
-        enchantments:
-          ARROW_DAMAGE: 4
-          ARROW_KNOCKBACK: 1
-
-
-  armor:
-    size: 27
-    title: '&7Броня'
-
-    items:
-      11:
-        material: LEATHER_HELMET
-        amount: 1
-        price: 1
-        vault: IRON
-
-      12:
-        material: LEATHER_LEGGINS
-        amount: 1
-        price: 1
-        vault: IRON
-
-      13:
-        material: LEATHER_BOOTS
-        amount: 1
-        price: 1
-        vault: IRON
-
-      14:
-        material: ITON_CHESTPLATE
-        amount: 1
-        price: 1
-        vault: GOLD
-        enchantments:
-          PTOTECTION_ENVIRONMENTAL: 0
-
-      15:
-        material: ITON_CHESTPLATE
-        amount: 1
-        price: 3
-        vault: GOLD
-        enchantments:
-          PTOTECTION_ENVIRONMENTAL: 2
-
-
-  abilities:
-    size: 27
-    title: '&7Способности'
-
-    items:
-      11: # Берсерк
-        price: 10
-        vault: EMERALD
-
-      12: # Артилерист
-        price: 10
-        vault: EMERALD
-
-      13: # Солдат
-        price: 10
-        vault: EMERALD
-
-      14: # Танк
-        price: 10
-        vault: EMERALD
-
-  others:
-    size: 27
-    title: '&7Другое'
-
-    items:
-
-
-
+others:
+  size: 27
+  title: '&7Другое'
+  items: {}

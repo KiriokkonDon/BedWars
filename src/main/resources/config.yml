@@ -1,12 +1,11 @@
 capturable_point:
-  blocked: '&cЗаблокировано'
-  active: '&2Активно'
-  destroyed: '&0Уничтожено'
+ blocked: '&cЗаблокировано'
+ active: '&2Активно'
+ destroyed: '&0Уничтожено'
+ hp_text:
+  - '%status%'
+  - '%team%'
+  - 'Здоровье: %hp%'
 
-hp_text:
-  '%status%'
-  '%team%'
-  'Здоровье: %hp%'
-
-  time_to_start: 20
-  respawn_time: 5
+time_to_start: 20
+respawn_time: 5

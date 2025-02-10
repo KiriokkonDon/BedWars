@@ -1,26 +1,28 @@
 tank:
-  name: 'Танк'
-  cooldown: 10
-  icon: NETHERITE_CHESTPLATE
-  duration: 10
-berserk:
-  name: 'Берсерк'
-  cooldown: 10
-  icon: NETHERITE_SWORD
-  duration: 10
-soldier:
-  name: 'Солдат'
-  cooldown: 10
-  icon: SLIME_BALL
-arty:
-  name: 'Артиллерист'
-  cooldown: 10
-  icon: TNT
-  duration: 10
-  radius: 10
+ name: 'Танк'
+ cooldown: 10
+ icon: NETHERITE_CHESTPLATE
+ duration: 10
 
+berserk:
+ name: 'Берсерк'
+ cooldown: 10
+ icon: NETHERITE_SWORD
+ duration: 10
+
+soldier:
+ name: 'Солдат'
+ cooldown: 10
+ icon: SLIME_BALL
+
+arty:
+ name: 'Артиллерист'
+ cooldown: 10
+ icon: TNT
+ duration: 10
+ radius: 10
 
 cooldown_bar:
-  title: 'Перезарядка способности'
-    bar_color: RED
-    bar_style: SOLID
+ title: 'Перезарядка способности'
+ bar_color: RED
+ bar_style: SOLID
