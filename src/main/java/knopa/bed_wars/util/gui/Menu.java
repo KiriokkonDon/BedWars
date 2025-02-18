@@ -38,7 +38,7 @@ public class Menu {
         menus.add(this);
     }
 
-    public  void ShowMenu(Player player){
+    public  void showMenu(Player player){
         player.openInventory(inventory);
         viewers.add(player);
     }

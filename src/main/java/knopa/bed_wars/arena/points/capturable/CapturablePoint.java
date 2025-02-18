@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CapturablePoint {
@@ -49,15 +50,17 @@ public class CapturablePoint {
         updateHologram();
     }
 
-    public  void  updateHologram(){
+    public void updateHologram() {
+        Map<String, String> args = new HashMap<>();
+
+        args.put("%status%", status.getValue());
+        args.put("%hp%", String.valueOf(hp));
+        args.put("%team%", team.getName());
+
         hologram.setText(
                 ChatUtil.applyArgs(
                         Bed_wars.getInstance().getConfig().getStringList("capturable_point.hp_text"),
-                        Map.of(
-                                "%status%", status.getValue(),
-                                "%hp%", String.valueOf(hp),
-                                "%team%", team.getName()
-                        )
+                        args
                 )
         );
     }

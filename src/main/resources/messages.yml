@@ -13,3 +13,4 @@ error:
  only_for_player: "Только для игрока"
  not_enough_permission: "Недостаточно прав!"
  not_enough_money: "У тебя недостаточно денюжек"
+ ability_on_cooldown: "&cУ вас уже есть активная способность! Подождите перезарядки."

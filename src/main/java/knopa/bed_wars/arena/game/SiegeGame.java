@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,9 @@ public class SiegeGame {
 
         preparePlayer(player, false);
         players.add(new SiegePlayer(player));
-        sendGameConfigMessage("joined", Map.of("%player%", player.getName()));
+        Map<String, String> args = new HashMap<>();
+        args.put("%player%", player.getName());
+        sendGameConfigMessage("joined", args);
 
         if (players.size() >= arena.getMinPlayers() && status == GameStatus.WAITING_FOR_PLAYERS){
             startCount();
@@ -109,7 +112,9 @@ public class SiegeGame {
                     return;
                 }
 
-                sendGameConfigTitle("game_start_in", "", Map.of("%time%", String.valueOf(timer)));
+                Map<String, String> args1 = new HashMap<>();
+                args1.put("%time%", String.valueOf(timer));
+                sendGameConfigTitle("game_start_in", "", args1);
 
                 if (timer-- <= 0){
                     start();
@@ -159,9 +164,6 @@ public class SiegeGame {
 
         player.getInventory().clear();
 
-        if (!leaving){
-            addTeamItems(player);
-        }
     }
 
     public boolean onBedBreak(Location location, Player breaker){
@@ -197,7 +199,9 @@ public class SiegeGame {
                         cancel();
                     }
 
-                    ChatUtil.sendConfigTitle(player, "death_message","", Map.of("%time%", String.valueOf(timer)));
+                    Map<String, String> args2 = new HashMap<>();
+                    args2.put("%time%", String.valueOf(timer));
+                    ChatUtil.sendConfigTitle(player, "death_message", "", args2);
                 }
             }.runTaskTimer(Bed_wars.getInstance(), 0L, 20L);
         }
@@ -269,11 +273,6 @@ public class SiegeGame {
         }
     }
 
-    private void addTeamItems(Player player){
-        for (Team team: arena.getTeams()){
-            player.getInventory().addItem(team.getTeamItem());
-        }
-    }
 
 
     public Team getTeamOf(Player player){

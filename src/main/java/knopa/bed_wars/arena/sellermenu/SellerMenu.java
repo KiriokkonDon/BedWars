@@ -1,5 +1,6 @@
 package knopa.bed_wars.arena.sellermenu;
 
+import knopa.bed_wars.Bed_wars;
 import knopa.bed_wars.arena.ArenaManager;
 import knopa.bed_wars.arena.SiegeArena;
 import knopa.bed_wars.arena.abilities.Ability;
@@ -15,20 +16,22 @@ import knopa.bed_wars.util.ItemBuilder;
 import knopa.bed_wars.util.gui.Button;
 import knopa.bed_wars.util.gui.Menu;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class SellerMenu {
 
     public  static  final SellerMenu instance = new SellerMenu();
 
-    private Menu category, blocks, food, weapons, armor, bows, abilities, others;
+    private final Menu category, blocks, food, weapons, armor, bows, abilities, others;
 
     private  SellerMenu(){
         category = parsetCategories();
@@ -60,30 +63,32 @@ public class SellerMenu {
                                     1
                             )
                                     .displayName(categorySection.getString("name"))
-                            .build()
+                                    .build()
                     ){
                         @Override
                         public void onClick(Player player, ClickType clickType){
-                            if (getSlot() == 10){
-                                blocks.ShowMenu(player);
-                            }
-                            else if (getSlot() == 11){
-                                food.ShowMenu(player);
-                            }
-                            else if (getSlot() == 12){
-                                weapons.ShowMenu(player);
-                            }
-                            else if (getSlot() == 13){
-                                bows.ShowMenu(player);
-                            }
-                            else if (getSlot() == 14){
-                                armor.ShowMenu(player);
-                            }
-                            else if (getSlot() == 15){
-                                abilities.ShowMenu(player);
-                            }
-                            else if (getSlot() == 16){
-                                others.ShowMenu(player);
+                            if (player.getOpenInventory().getTitle().equals(category.getTitle())) {
+                                if (getSlot() == 10){
+                                    blocks.showMenu(player);
+                                }
+                                else if (getSlot() == 11){
+                                    food.showMenu(player);
+                                }
+                                else if (getSlot() == 12){
+                                    weapons.showMenu(player);
+                                }
+                                else if (getSlot() == 13){
+                                    bows.showMenu(player);
+                                }
+                                else if (getSlot() == 14){
+                                    armor.showMenu(player);
+                                }
+                                else if (getSlot() == 15){
+                                    abilities.showMenu(player);
+                                }
+                                else if (getSlot() == 16){
+                                    others.showMenu(player);
+                                }
                             }
                         }
                     }
@@ -102,21 +107,23 @@ public class SellerMenu {
         if (itemsSection == null){
             return menu;
         }
-
+        //Идем по предметам, которые в items
         for (String key : itemsSection.getKeys(false)){
             ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
+
             if (itemSection.getString("material") != null) {
-                ItemBuilder item =                                 new ItemBuilder(
+                ItemBuilder item = new ItemBuilder(
                         Material.valueOf(itemSection.getString("material")),
                         itemSection.getInt("amount")
-                )
-                        .setLore(
-                                ConfigManager.instance.configs.get("seller-menu.yml").getStringList("price_lore"),
-                                Map.of(
-                                        "%price%", String.valueOf(itemSection.getInt("price")),
-                                        "%resource%", itemSection.getString("vault")
-                                )
-                        );
+                ).setLore(
+                        ConfigManager.instance.configs.get("seller-menu.yml").getStringList("price_lore"),
+                        Map.of(
+                                "%price%", String.valueOf(itemSection.getInt("price")),
+                                "%resource%", itemSection.getString("vault")
+                        )
+
+                );
+
                 ConfigurationSection enchantmentSection = itemSection.getConfigurationSection("enchantments");
 
                 if (enchantmentSection != null){
@@ -129,14 +136,15 @@ public class SellerMenu {
                         new Button(
                                 Integer.parseInt(key),
                                 item.build()
-                        ) {
+                        ){
                             @Override
                             public void onClick(Player player, ClickType clickType) {
+//                                player.sendMessage("Click registered!");
                                 PointResource pointResource = PointResource.valueOf(itemSection.getString("vault"));
                                 int price = itemSection.getInt("price");
 
                                 if (hasMoney(player, price, pointResource )){
-                                    ItemStack itemStack =                                             new ItemStack(
+                                    ItemStack itemStack = new ItemStack(
                                             Material.valueOf(itemSection.getString("material")),
                                             itemSection.getInt("amount"));
 
@@ -150,6 +158,7 @@ public class SellerMenu {
                                     player.getInventory().addItem(
                                             itemStack
                                     );
+
                                     player.getInventory().removeItem(new ItemStack(pointResource.getSpawnItem(), price));
                                 }
                                 else {
@@ -183,18 +192,19 @@ public class SellerMenu {
                                 new ItemBuilder(
                                         ability.getIcon().getType(),
                                         ability.getIcon().getAmount()
-                                )
-                                        .setLore(
-                                                ConfigManager.instance.configs.get("seller-menu.yml").getStringList("price_lore"),
-                                                Map.of(
-                                                        "%price%", String.valueOf(itemSection.getInt("price")),
-                                                        "%resource%", itemSection.getString("vault")
-                                                )
+                                ).setLore(
+                                        ConfigManager.instance.configs.get("seller-menu.yml").getStringList("price_lore"),
+                                        Map.of(
+                                                "%price%", String.valueOf(itemSection.getInt("price")),
+                                                "%resource%", itemSection.getString("vault")
                                         )
+
+                                )
                                         .build()
-                        ) {
+                        ){
                             @Override
                             public void onClick(Player player, ClickType clickType) {
+                                //player.sendMessage("Click registered!");
                                 PointResource pointResource = PointResource.valueOf(itemSection.getString("vault"));
                                 int price = itemSection.getInt("price");
 
@@ -202,9 +212,20 @@ public class SellerMenu {
                                     SiegeArena arena = ArenaManager.instance.getArenaOf(player);
                                     SiegePlayer siegePlayer = arena.getGame().getSiegePlayer(player);
 
+                                    // ПРОВЕРКА ПЕРЕЗАРЯДКИ ПЕРЕД ПОКУПКОЙ!
+                                    NamespacedKey cooldownKey = new NamespacedKey(Bed_wars.getInstance(), "cooldown");
+                                    if (player.getPersistentDataContainer().has(cooldownKey, PersistentDataType.INTEGER)) {
+                                        ChatUtil.sendConfigMessage(player, "error.ability_on_cooldown"); // Добавь это сообщение в конфиг!
+                                        player.closeInventory();
+                                        return; // Прерываем выполнение, если на перезарядке.
+                                    }
+
                                     if (siegePlayer.getAbility() != ability){
 
                                     siegePlayer.setAbility(ability);
+                                    ability.apply(player);
+
+                                    player.sendMessage(ChatUtil.format("Способность " + ability.getName() + " успешно приобретена!"));
 
                                     player.getInventory().removeItem(new ItemStack(pointResource.getSpawnItem(), price));
                                     }
@@ -225,7 +246,7 @@ public class SellerMenu {
     }
 
     public  void showMenu(Player player){
-        category.ShowMenu(player);
+        category.showMenu(player);
     }
 
     public  boolean hasMoney(Player player, int amount, PointResource pointResource){

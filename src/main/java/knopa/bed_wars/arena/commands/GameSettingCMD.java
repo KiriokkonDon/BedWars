@@ -52,19 +52,19 @@ public class GameSettingCMD implements TabExecutor {
             return true;
         }
         else if (args[0].equalsIgnoreCase("addPoint")){
-        SiegeArena arena = ArenaManager.instance.getArenaBy(args[1]);
+            SiegeArena arena = ArenaManager.instance.getArenaBy(args[1]);
 
-        ArenaManager.instance.addPoint(
-                arena,
-                args[2],
-                player.getLocation(),
-                Double.parseDouble(args[3]),
-                PointResource.valueOf(args[4])
-        );
+            ArenaManager.instance.addPoint(
+                    arena,
+                    args[2],
+                    player.getLocation(),
+                    Double.parseDouble(args[3]),
+                    PointResource.valueOf(args[4])
+            );
 
-        ChatUtil.sendMessage(player, "DONE");
-        return true;
-    }
+            ChatUtil.sendMessage(player, "DONE");
+            return true;
+        }
         else if (args[0].equalsIgnoreCase("addTrader")){
             SiegeArena arena = ArenaManager.instance.getArenaBy(args[1]);
 

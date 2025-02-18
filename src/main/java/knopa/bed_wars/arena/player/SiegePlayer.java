@@ -23,4 +23,6 @@ public class SiegePlayer {
     public void setAbility(Ability ability) {
         this.ability = ability;
     }
+
+
 }

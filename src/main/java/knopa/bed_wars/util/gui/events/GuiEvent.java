@@ -28,7 +28,7 @@ public class GuiEvent implements Listener {
     public void onInventoryClose(InventoryCloseEvent event){
         Menu menu = Menu.getMenuOf((Player) event.getPlayer());
 
-        if (menu != menu){
+        if (menu != null) {
             menu.onClose((Player) event.getPlayer());
         }
     }

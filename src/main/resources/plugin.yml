@@ -11,3 +11,5 @@ commands:
   siege:
     aliases:
       si
+
+  test:

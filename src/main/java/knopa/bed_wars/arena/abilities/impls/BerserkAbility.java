@@ -1,5 +1,6 @@
 package knopa.bed_wars.arena.abilities.impls;
 
+import knopa.bed_wars.Bed_wars;
 import knopa.bed_wars.arena.abilities.Ability;
 import knopa.bed_wars.util.ChatUtil;
 import knopa.bed_wars.util.ConfigManager;
@@ -23,8 +24,9 @@ public class BerserkAbility extends Ability {
         );
     }
 
-    public void apply(Player player){
-        if (!player.getPersistentDataContainer().has(NamespacedKey.fromString("cooldown"), PersistentDataType.INTEGER)){
+    public void apply(Player player) {
+        NamespacedKey cooldownKey = new NamespacedKey(Bed_wars.getInstance(), "cooldown");
+        if (!player.getPersistentDataContainer().has(cooldownKey, PersistentDataType.INTEGER)) {
             player.addPotionEffect(
                     new PotionEffect(
                             PotionEffectType.ABSORPTION,
@@ -36,6 +38,7 @@ public class BerserkAbility extends Ability {
             setOnCooldown(player, "berserk");
         }
     }
+
 
     @Override
     public int getSlot(){

@@ -10,26 +10,32 @@ categories:
       slot: 10
       name: '&9Блоки'
       material: SANDSTONE
+
     food:
       slot: 11
       name: '&9Еда'
       material: COOKED_PORKCHOP
+
     weapons:
       slot: 12
       name: '&9Оружие'
       material: DIAMOND_SWORD
+
     bows:
       slot: 13
       name: '&9Луки'
       material: BOW
+
     armor:
       slot: 14
       name: '&9Броня'
       material: IRON_CHESTPLATE
+
     abilities:
       slot: 15
       name: '&9Способности'
       material: ELYTRA
+
     others:
       slot: 16
       name: '&9Другое'
@@ -44,21 +50,25 @@ blocks:
       amount: 16
       price: 1
       vault: IRON
+
     12:
       material: COBBLESTONE
       amount: 16
       price: 3
       vault: IRON
+
     13:
       material: END_STONE
       amount: 7
       price: 3
       vault: GOLD
+
     14:
       material: DEEPSLATE
       amount: 7
       price: 6
       vault: GOLD
+
     15:
       material: OBSIDIAN
       amount: 1
@@ -229,4 +239,4 @@ abilities:
 others:
   size: 27
   title: '&7Другое'
-  items: {}
+  items:

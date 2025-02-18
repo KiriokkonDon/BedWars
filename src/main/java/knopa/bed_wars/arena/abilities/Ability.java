@@ -1,6 +1,7 @@
 package knopa.bed_wars.arena.abilities;
 
 import knopa.bed_wars.Bed_wars;
+import knopa.bed_wars.util.ChatUtil;
 import knopa.bed_wars.util.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -25,30 +26,31 @@ public abstract class Ability {
         this.icon = icon;
     }
 
-    public  void  setOnCooldown(Player player, String pathToConfigSection){
-        player.getPersistentDataContainer().set(NamespacedKey.fromString("cooldown"), PersistentDataType.INTEGER, 1);
+    public void setOnCooldown(Player player, String pathToConfigSection) {
+        NamespacedKey cooldownKey = new NamespacedKey(Bed_wars.getInstance(), "cooldown");
+        player.getPersistentDataContainer().set(cooldownKey, PersistentDataType.INTEGER, 1);
 
-        new BukkitRunnable(){
-            int timer = ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".cooldown") +
-                    ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".duration");
+        new BukkitRunnable() {
+            int timer = ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".cooldown")
+                    + ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".duration");
 
             BossBar bossBar = Bukkit.createBossBar(
-                    ConfigManager.instance.configs.get("abilities.yml").getString("cooldown.title"),
-                    BarColor.valueOf(ConfigManager.instance.configs.get("abilities.yml").getString("cooldown.bar_color")),
-                    BarStyle.valueOf(ConfigManager.instance.configs.get("abilities.yml").getString("cooldown.bar_style"))
+                    ChatUtil.format(ConfigManager.instance.configs.get("abilities.yml").getString("cooldown_bar.title")),
+                    BarColor.valueOf(ConfigManager.instance.configs.get("abilities.yml").getString("cooldown_bar.bar_color")),
+                    BarStyle.valueOf(ConfigManager.instance.configs.get("abilities.yml").getString("cooldown_bar.bar_style"))
             );
 
             @Override
-            public void run(){
+            public void run() {
                 bossBar.addPlayer(player);
-                bossBar.setProgress((double) timer / (ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".cooldown") +
-                        ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".duration")));
+                bossBar.setProgress((double) timer / (ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".cooldown")
+                        + ConfigManager.instance.configs.get("abilities.yml").getInt(pathToConfigSection + ".duration")));
 
                 timer -= 1;
-                if (timer == 0){
+                if (timer <= 0) {
                     cancel();
                     bossBar.removeAll();
-                    player.getPersistentDataContainer().remove(NamespacedKey.fromString("cooldown"));
+                    player.getPersistentDataContainer().remove(cooldownKey);
                 }
             }
         }.runTaskTimer(Bed_wars.getInstance(), 0L, 20L);
@@ -67,4 +69,6 @@ public abstract class Ability {
     public ItemStack getIcon() {
         return icon;
     }
+
+    public abstract void apply(Player player);
 }

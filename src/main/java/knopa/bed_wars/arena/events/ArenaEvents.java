@@ -36,21 +36,7 @@ public class ArenaEvents implements Listener {
 
     }
 
-    @EventHandler
-    public void  onTeamChange(PlayerInteractEvent event){
-        if (event.hasItem()){
-            SiegeArena arena = ArenaManager.instance.getArenaOf(event.getPlayer());
 
-            if (arena != null && arena.getGame() != null){
-                Team team = arena.getTeamBy(event.getItem());
-
-                if (team != null){
-                    arena.getGame().setTeamOf(event.getPlayer(), team);
-                    ChatUtil.sendConfigMessage(event.getPlayer(), "team_svitch_message", Map.of("%team%", team.getName()));
-                }
-            }
-        }
-    }
 
     @EventHandler
     public void  onBlockBreak(BlockBreakEvent event){

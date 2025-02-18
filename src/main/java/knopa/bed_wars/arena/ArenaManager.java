@@ -39,7 +39,7 @@ public class ArenaManager {
     public SiegeArena getArenaBy(String name){
         for (SiegeArena arena: arenas){
             if (arena.getName().equals(name)){
-                    return arena;
+                return arena;
             }
         }
         return null;
