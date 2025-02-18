@@ -192,7 +192,9 @@ public class SellerMenu {
                                 new ItemBuilder(
                                         ability.getIcon().getType(),
                                         ability.getIcon().getAmount()
-                                ).setLore(
+                                )
+                                        .displayName(ability.getName()) //Добавляем название
+                                        .setLore(
                                         ConfigManager.instance.configs.get("seller-menu.yml").getStringList("price_lore"),
                                         Map.of(
                                                 "%price%", String.valueOf(itemSection.getInt("price")),
