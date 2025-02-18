@@ -240,3 +240,8 @@ others:
   size: 27
   title: '&7Другое'
   items:
+    11:
+      material: ARROW
+      amount: 30
+      price: 3
+      vault: EMERALD
