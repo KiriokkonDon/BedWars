@@ -35,15 +35,15 @@ public class SiegeArena {
         this.center = center;
     }
 
-    @Nullable
-    public Team getTeamBy(ItemStack itemStack){
-        for (Team team: teams){
-            if (team.getTeamItem() == itemStack){
-                return team;
-            }
-        }
-        return null;
-    }
+//    @Nullable
+//    public Team getTeamBy(ItemStack itemStack){
+//        for (Team team: teams){
+//            if (team.getTeamItem() == itemStack){
+//                return team;
+//            }
+//        }
+//        return null;
+//    }
 
     @Nullable
     public Team getTeamBy(String name){

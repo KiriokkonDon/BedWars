@@ -9,3 +9,5 @@ capturable_point:
 
 time_to_start: 20
 respawn_time: 5
+
+database_url: "jdbc:sqlite:siegearena.sqlite"

@@ -17,16 +17,16 @@ public class Team {
     private final ChatColor color;
     private final Location spawn;
     private final List<Player> players = new ArrayList<>();
-    private final ItemStack teamItem;
+    //private final ItemStack teamItem;
     private final  List<CapturablePoint> pointsToCapture = new ArrayList<>();
     private  final BedPoint bedPoint;
 
-    public Team(String name, int size, ChatColor color, Location spawn, ItemStack teamItem, BedPoint bedPoint) {
+    public Team(String name, int size, ChatColor color, Location spawn, /*ItemStack teamItem,*/ BedPoint bedPoint) {
         this.name = name;
         this.size = size;
         this.color = color;
         this.spawn = spawn;
-        this.teamItem = teamItem;
+        //this.teamItem = teamItem;//
         this.bedPoint = bedPoint;
     }
 
@@ -54,9 +54,9 @@ public class Team {
         return spawn;
     }
 
-    public ItemStack getTeamItem() {
+    /*public ItemStack getTeamItem() {
         return teamItem;
-    }
+    }*/
 
     public BedPoint getBedPoint() {
         return bedPoint;

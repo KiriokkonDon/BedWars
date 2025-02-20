@@ -37,6 +37,8 @@ public final class Bed_wars extends JavaPlugin {
 
         getCommand("test").setExecutor(new TestCMD());
 
+        ArenaManager.instance.loadArenas();
+
     }
 
     @Override

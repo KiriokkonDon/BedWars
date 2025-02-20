@@ -45,8 +45,8 @@ public class GameSettingCMD implements TabExecutor {
                     args[2],
                     Integer.parseInt(args[3]),
                     ChatColor.valueOf(args[4]),
-                    player.getLocation(),
-                    player.getInventory().getItemInMainHand());
+                    player.getLocation());
+                    /*player.getInventory().getItemInMainHand());*/
 
             ChatUtil.sendMessage(player, "DONE");
             return true;
