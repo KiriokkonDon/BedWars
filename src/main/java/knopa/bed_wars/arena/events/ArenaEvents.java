@@ -41,14 +41,32 @@ public class ArenaEvents implements Listener {
     @EventHandler
     public void  onBlockBreak(BlockBreakEvent event){
         SiegeArena arena = ArenaManager.instance.getArenaOf(event.getPlayer());
+        Player player = event.getPlayer();
 
         if (arena != null){
             if (arena.getGame() != null){
-                if (!event.getBlock().getType().name().contains("_BED")){
-                   if (!arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())){
-                       event.setCancelled(true);
-                   }
+                //Bed Breaking Check
+                if(event.getBlock().getType().name().contains("_BED")){
+                    Team team = arena.getGame().getTeamOf(player);
+                    if(team != null){
+                        if(team.getBedPoint().getLocation().equals(event.getBlock().getLocation())){
+                            ChatUtil.sendMessage(player, "&cYou cannot break your own bed!");
+                            event.setCancelled(true);
+                            return;
+                        }
+                        else{
+                            //It's an enemy bed
+                            if (!arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())){
+                                event.setCancelled(true);
+                            }
+                        }
+                    }
                 }
+                // Other block breaking logic (if needed) can go here, after the bed check
+                else if (!arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())){
+                    event.setCancelled(true);
+                }
+
             }
         }
     }

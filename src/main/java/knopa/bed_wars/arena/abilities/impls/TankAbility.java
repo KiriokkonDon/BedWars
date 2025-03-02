@@ -29,7 +29,7 @@ public class TankAbility extends Ability {
         if (!player.getPersistentDataContainer().has(cooldownKey, PersistentDataType.INTEGER)) {
             player.addPotionEffect(
                     new PotionEffect(
-                            PotionEffectType.INCREASE_DAMAGE,
+                            PotionEffectType.ABSORPTION,
                             ConfigManager.instance.configs.get("abilities.yml").getInt("tank.duration") * 20,
                             3
                     )

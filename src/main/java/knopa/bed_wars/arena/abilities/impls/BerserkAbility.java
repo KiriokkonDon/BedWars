@@ -29,7 +29,7 @@ public class BerserkAbility extends Ability {
         if (!player.getPersistentDataContainer().has(cooldownKey, PersistentDataType.INTEGER)) {
             player.addPotionEffect(
                     new PotionEffect(
-                            PotionEffectType.ABSORPTION,
+                            PotionEffectType.STRENGTH,
                             ConfigManager.instance.configs.get("abilities.yml").getInt("berserk.duration") * 20,
                             3
                     )

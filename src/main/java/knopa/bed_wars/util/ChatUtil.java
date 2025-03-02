@@ -54,7 +54,7 @@ public class ChatUtil {
             sendTitle(
                     recipient,
                     ConfigManager.instance.configs.get("messages.yml").getString(messagePath),
-            ""
+                    ""
             );
         }
         else {
@@ -71,7 +71,7 @@ public class ChatUtil {
         String subMessage;
 
         if (!subMessagePath.equals("")) {
-             subMessage = ConfigManager.instance.configs.get("messages.yml").getString(subMessagePath);
+            subMessage = ConfigManager.instance.configs.get("messages.yml").getString(subMessagePath);
         }
         else {
             subMessage = "";
@@ -92,7 +92,7 @@ public class ChatUtil {
         if (subMessage == null) {
             sendTitle(
                     recipient,
-                   format(message),
+                    format(message),
                     ""
             );
         }

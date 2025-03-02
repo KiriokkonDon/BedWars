@@ -43,8 +43,8 @@ public class CapturablePoint {
         entity = location.getWorld().spawn(location, EnderCrystal.class);
 
         hologram = new Hologram(
-                    Collections.emptyList(),
-                location.add(new Vector(0,1,0))
+                Collections.emptyList(),
+                location.clone().add(new Vector(0,1,0))
         );
 
         updateHologram();

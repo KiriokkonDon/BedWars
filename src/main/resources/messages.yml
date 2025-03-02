@@ -3,10 +3,17 @@ left: "%player% вышел"
 game_start_in: "Игра начнеться через %time%"
 game_status: "Игра началась!"
 death_message: "Возрождение через %time%"
-loser_message: "Ты проиграл"
-winner_message: "Ты победил"
+loser_message: "&cВы проиграли!"
+winner_message: "&aВы победили!"
+title: "&6◀-----------------▶"
 
 team_svitch_message: "Ты теперь в команде %team%"
+team_win: "&aКоманда &6%team% &aпобедила!"
+draw: "&cНичья! Все кровати были уничтожены."
+
+
+bed_break: "&cКровать команды &6%team% &cбыла уничтожена игроком &6%player%&c!"
+
 error:
  already_on_arena: "Ты уже на арене"
  arena_is_full: "На арене нет места"

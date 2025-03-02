@@ -82,6 +82,8 @@ public class SiegeGame {
 
     public void leavePlayer(Player player){
         players.remove(getSiegePlayer(player));
+        Map<String, String> args = new HashMap<>();
+        args.put("%player%", player.getName());
         sendGameConfigMessage("left");
 
         preparePlayer(player, true);
@@ -114,7 +116,7 @@ public class SiegeGame {
 
                 Map<String, String> args1 = new HashMap<>();
                 args1.put("%time%", String.valueOf(timer));
-                sendGameConfigTitle("game_start_in", "", args1);
+                sendGameConfigTitle("title", "game_start_in", args1);
 
                 if (timer-- <= 0){
                     start();
@@ -130,7 +132,7 @@ public class SiegeGame {
             preparePlayer(player.getBukkitPlayer(), false);
 
             player.getBukkitPlayer().teleport(getTeamOf(player.getBukkitPlayer()).getSpawn());
-            ChatUtil.sendConfigTitle(player.getBukkitPlayer(), "game_status", "");
+            ChatUtil.sendConfigTitle(player.getBukkitPlayer(), "title", "game_status");
         }
 
         for (Team team: arena.getTeams()){
@@ -166,23 +168,58 @@ public class SiegeGame {
 
     }
 
-    public boolean onBedBreak(Location location, Player breaker){
-        for (Team team: arena.getTeams()){
-            if (team.getBedPoint().getLocation().distance(location) < 1){
-                if (getTeamOf(breaker) == team){
-                    return  false;
-                }
-
-                if (team.getBedPoint().getStatus() != PointStatus.ACTIVE){
-                    return false;
-                }
-
-                team.getBedPoint().onBreak();
-                return true;
+    public boolean onBedBreak(Location location, Player player) {
+        // Find the team whose bed was broken
+        Team brokenBedTeam = null;
+        for (Team team : arena.getTeams()) {
+            if (team.getBedPoint().getLocation() != null && team.getBedPoint().getLocation().equals(location)) {
+                brokenBedTeam = team;
+                break;
             }
         }
-        return true;
+
+        if (brokenBedTeam == null) {
+            return false; // Bed not found, or not a registered bed
+        }
+
+        // Handle bed destruction logic
+        brokenBedTeam.getBedPoint().onBreak(); // Mark the bed as broken
+        // Broadcast message, update game state, etc.
+
+
+        Map<String, String> args = new HashMap<>();
+        args.put("%team%", brokenBedTeam.getColor() + brokenBedTeam.getName());
+        args.put("%player%", player.getName());
+        sendGameConfigTitle("title", "bed_break", args);
+
+        //Check for win
+        checkForWin();
+        return true; // Bed was successfully broken
     }
+
+    private void checkForWin() {
+        // Check if only one team has a bed remaining
+        Team lastTeamWithBed = null;
+        int teamsWithBeds = 0;
+        for (Team team : arena.getTeams()) {
+            if (team.getBedPoint().getStatus() != PointStatus.DESTROYED) {
+                teamsWithBeds++;
+                lastTeamWithBed = team;
+            }
+        }
+
+        if (teamsWithBeds == 1) {
+            // Announce winner and end the game
+            onGameEnd(lastTeamWithBed);
+        }
+        if(teamsWithBeds == 0){
+            onGameEnd(null);
+        }
+    }
+
+
+
+
 
     public void onPlayerDeath(Player player){
         player.setGameMode(GameMode.SPECTATOR);
@@ -201,7 +238,7 @@ public class SiegeGame {
 
                     Map<String, String> args2 = new HashMap<>();
                     args2.put("%time%", String.valueOf(timer));
-                    ChatUtil.sendConfigTitle(player, "death_message", "", args2);
+                    ChatUtil.sendConfigTitle(player, "title", "death_message", args2);
                 }
             }.runTaskTimer(Bed_wars.getInstance(), 0L, 20L);
         }
@@ -235,20 +272,24 @@ public class SiegeGame {
     }
 
     public  void  onGameEnd(Team winner){
+        //Reset players, inventories, and game
         arena.reset();
 
+        if(winner != null){
+            Map<String, String> winArgs = new HashMap<>();
+            winArgs.put("%team%", winner.getColor() + winner.getName());
+            sendGameConfigTitle("title", "team_win", winArgs);  // Announce the winner
+        }
+        else{
+            sendGameConfigTitle("title", "draw",  new HashMap<>()); // Announce a draw
+        }
         for (SiegePlayer player: players){
-            if (getTeamOf(player.getBukkitPlayer()) == winner){
-                ChatUtil.sendConfigTitle(
-                        player.getBukkitPlayer(),
-                        "winner_message",
-                        ""
-                );
-            }
-
             leavePlayer(player.getBukkitPlayer());
         }
+        players.clear();
+        status = GameStatus.WAITING_FOR_PLAYERS;
     }
+
 
     private void respawnPlayer(Player player) {
         player.teleport(getTeamOf(player).getSpawn());

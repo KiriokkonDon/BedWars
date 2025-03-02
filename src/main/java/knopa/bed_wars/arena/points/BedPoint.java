@@ -4,7 +4,8 @@ import org.bukkit.Location;
 
 public class BedPoint {
 
-    private  final Location location;
+
+    private  Location location;
 
     private PointStatus status = PointStatus.BLOCKED;
 
@@ -22,6 +23,10 @@ public class BedPoint {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public PointStatus getStatus() {
