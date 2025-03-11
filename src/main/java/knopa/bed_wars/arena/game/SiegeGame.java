@@ -146,7 +146,7 @@ public class SiegeGame {
     }
 
     public  void  activateNextPoint(Team team){
-        for (int i=0; 1< team.getPointsToCapture().size(); i++){
+        for (int i=0; i < team.getPointsToCapture().size(); i++){
             if (team.getPointsToCapture().get(i).getStatus() == PointStatus.BLOCKED){
                 if(i == 0 || team.getPointsToCapture().get(i - 1).getStatus() == PointStatus.DESTROYED){
                     team.getPointsToCapture().get(i).active();
@@ -166,6 +166,32 @@ public class SiegeGame {
 
         player.getInventory().clear();
 
+    }
+
+    //Проверяет, уничтожены ли все спавнеры команды.
+
+    public boolean areAllPointsDestroyed(Team team) {
+        for (CapturablePoint point : team.getPointsToCapture()) {
+            if (point.getStatus() != PointStatus.DESTROYED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //Обрабатывает уничтожение спавнера и активирует кровать, если все спавнеры уничтожены.
+
+    public void onPointDestroy(CapturablePoint point) {
+        activateNextPoint(point.getTeam());
+        if (areAllPointsDestroyed(point.getTeam())) {
+            point.getTeam().getBedPoint().activate();
+            // Сообщение о том, что кровать теперь уязвима (опционально)
+            Map<String, String> args = new HashMap<>();
+            args.put("%team%", point.getTeam().getColor() + point.getTeam().getName());
+            sendGameConfigMessage("bed_vulnerable", args);
+
+
+        }
     }
 
     public boolean onBedBreak(Location location, Player player) {

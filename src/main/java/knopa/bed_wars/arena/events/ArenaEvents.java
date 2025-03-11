@@ -39,34 +39,44 @@ public class ArenaEvents implements Listener {
 
 
     @EventHandler
-    public void  onBlockBreak(BlockBreakEvent event){
+    public void onBlockBreak(BlockBreakEvent event) {
         SiegeArena arena = ArenaManager.instance.getArenaOf(event.getPlayer());
         Player player = event.getPlayer();
-
-        if (arena != null){
-            if (arena.getGame() != null){
-                //Bed Breaking Check
-                if(event.getBlock().getType().name().contains("_BED")){
-                    Team team = arena.getGame().getTeamOf(player);
-                    if(team != null){
-                        if(team.getBedPoint().getLocation().equals(event.getBlock().getLocation())){
-                            ChatUtil.sendMessage(player, "&cYou cannot break your own bed!");
-                            event.setCancelled(true);
-                            return;
+        if (arena != null && arena.getGame() != null) {
+            if (event.getBlock().getType().name().contains("_BED")) {
+                Team playerTeam = arena.getGame().getTeamOf(player);
+                if (playerTeam != null) {
+                    Team bedTeam = null;
+                    for (Team team : arena.getTeams()) {
+                        if (team.getBedPoint().getLocation() != null &&
+                                team.getBedPoint().getLocation().equals(event.getBlock().getLocation())) {
+                            bedTeam = team;
+                            break;
                         }
-                        else{
-                            //It's an enemy bed
-                            if (!arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())){
+                    }
+                    if (bedTeam == null) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                    if (bedTeam == playerTeam) {
+                        ChatUtil.sendMessage(player, "&cYou cannot break your own bed!");
+                        event.setCancelled(true);
+                    } else {
+                        // Проверяем, активирована ли кровать (все спавнеры уничтожены)
+                        if (bedTeam.getBedPoint().getStatus() == PointStatus.ACTIVE) {
+                            if (arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())) {
+                                event.setDropItems(false); 
+                            } else {
                                 event.setCancelled(true);
                             }
+                        } else {
+                            ChatUtil.sendMessage(player, "&cКровать врага еще не уязвима! Сначала уничтожьте все их спавнеры.");
+                            event.setCancelled(true);
                         }
                     }
                 }
-                // Other block breaking logic (if needed) can go here, after the bed check
-                else if (!arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())){
-                    event.setCancelled(true);
-                }
-
+            } else {
+                event.setCancelled(true); // Запрещаем ломать другие блоки
             }
         }
     }
@@ -79,6 +89,7 @@ public class ArenaEvents implements Listener {
             SiegeArena arena = ArenaManager.instance.getArenaOf(damager);
 
             if (arena != null){
+
                 if (event.getEntity() instanceof Player){
                     Player damaged = (Player) event.getEntity();
 
@@ -112,6 +123,10 @@ public class ArenaEvents implements Listener {
 
                         if (point.getStatus() == PointStatus.DESTROYED){
                             arena.getGame().activateNextPoint(point.getTeam());
+                        }
+
+                        if (point.getStatus() == PointStatus.DESTROYED) {
+                            arena.getGame().onPointDestroy(point);
                         }
                     }
 
