@@ -11,3 +11,11 @@ time_to_start: 20
 respawn_time: 5
 
 database_url: "jdbc:sqlite:siegearena.sqlite"
+
+spawn:
+ world: "world"
+ x: 0.0
+ y: 64.0
+ z: 0.0
+ yaw: 0.0
+ pitch: 0.0

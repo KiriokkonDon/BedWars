@@ -10,21 +10,19 @@ import knopa.bed_wars.arena.points.capturable.CapturablePoint;
 import knopa.bed_wars.arena.team.Team;
 import knopa.bed_wars.util.ChatUtil;
 import knopa.bed_wars.util.ConfigManager;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SiegeGame {
+
+    //для сохранения инвентаря перед игрой
+    private final Map<UUID, ItemStack[]> playerInventories = new HashMap<>();
 
     private  final List<SiegePlayer> players = new ArrayList<>();
 
@@ -68,6 +66,9 @@ public class SiegeGame {
                 break;
             }
         }
+
+        //сохраняем инвентарь
+        playerInventories.put(player.getUniqueId(), player.getInventory().getContents().clone());
 
         preparePlayer(player, false);
         players.add(new SiegePlayer(player));
@@ -164,7 +165,9 @@ public class SiegeGame {
             player.removePotionEffect(potionEffect.getType());
         }
 
-        player.getInventory().clear();
+        if (!leaving) {
+            player.getInventory().clear(); // Очищаем только при входе в игру
+        }
 
     }
 
@@ -309,9 +312,26 @@ public class SiegeGame {
         else{
             sendGameConfigTitle("title", "draw",  new HashMap<>()); // Announce a draw
         }
-        for (SiegePlayer player: players){
-            leavePlayer(player.getBukkitPlayer());
+
+        // Обрабатываем всех игроков
+        for (SiegePlayer siegePlayer : players) {
+            Player player = siegePlayer.getBukkitPlayer();
+
+            // Телепортация на спавн
+            player.teleport(getSpawnLocation());
+
+            // Восстановление инвентаря
+            ItemStack[] savedInventory = playerInventories.get(player.getUniqueId());
+            if (savedInventory != null) {
+                player.getInventory().clear();
+                player.getInventory().setContents(savedInventory);
+                playerInventories.remove(player.getUniqueId()); // Удаляем, чтобы избежать утечек памяти
+            }
+
+            // Выводим игрока из игры
+            leavePlayer(player);
         }
+
         players.clear();
         status = GameStatus.WAITING_FOR_PLAYERS;
     }
@@ -361,5 +381,27 @@ public class SiegeGame {
 
     public GameStatus getStatus() {
         return status;
+    }
+
+    // Метод для получения координат спавна
+    private Location getSpawnLocation() {
+        // Читаем значения из config.yml
+        String worldName = Bed_wars.getInstance().getConfig().getString("spawn.world");
+        double x = Bed_wars.getInstance().getConfig().getDouble("spawn.x");
+        double y = Bed_wars.getInstance().getConfig().getDouble("spawn.y");
+        double z = Bed_wars.getInstance().getConfig().getDouble("spawn.z");
+        float yaw = (float) Bed_wars.getInstance().getConfig().getDouble("spawn.yaw");
+        float pitch = (float) Bed_wars.getInstance().getConfig().getDouble("spawn.pitch");
+
+        // Получаем объект мира
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
+            // Если мир не найден, выводим предупреждение
+            Bed_wars.getInstance().getLogger().warning("Мир '" + worldName + "' не найден!");
+            return null; // Можно заменить на резервную локацию
+        }
+
+        // Создаем и возвращаем объект Location
+        return new Location(world, x, y, z, yaw, pitch);
     }
 }

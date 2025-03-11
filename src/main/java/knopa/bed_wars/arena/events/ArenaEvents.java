@@ -65,7 +65,7 @@ public class ArenaEvents implements Listener {
                         // Проверяем, активирована ли кровать (все спавнеры уничтожены)
                         if (bedTeam.getBedPoint().getStatus() == PointStatus.ACTIVE) {
                             if (arena.getGame().onBedBreak(event.getBlock().getLocation(), event.getPlayer())) {
-                                event.setDropItems(false); 
+                                event.setDropItems(false);
                             } else {
                                 event.setCancelled(true);
                             }
