@@ -313,8 +313,10 @@ public class SiegeGame {
             sendGameConfigTitle("title", "draw",  new HashMap<>()); // Announce a draw
         }
 
+        List<SiegePlayer> playersToProcess = new ArrayList<>(players);
+
         // Обрабатываем всех игроков
-        for (SiegePlayer siegePlayer : players) {
+        for (SiegePlayer siegePlayer : playersToProcess) {
             Player player = siegePlayer.getBukkitPlayer();
 
             // Телепортация на спавн
@@ -325,7 +327,7 @@ public class SiegeGame {
             if (savedInventory != null) {
                 player.getInventory().clear();
                 player.getInventory().setContents(savedInventory);
-                playerInventories.remove(player.getUniqueId()); // Удаляем, чтобы избежать утечек памяти
+                playerInventories.remove(player.getUniqueId());
             }
 
             // Выводим игрока из игры
